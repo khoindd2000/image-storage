@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  image-storage:
+    build: .
+    ports:
+      - "3000:5000"
+    volumes:
+      - ./images:/media:ro
+    environment:
+      - MEDIA_PATH=/media
+      - NODE_ENV=production
+    restart: unless-stopped
+
+volumes:
+  images:
+    driver: local
