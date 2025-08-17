@@ -55,6 +55,22 @@ function App() {
     setSelectedFile(null);
   };
 
+  const navigateToNextFile = () => {
+    if (!selectedFile || files.length === 0) return;
+    
+    const currentIndex = files.findIndex(file => file.path === selectedFile.path);
+    const nextIndex = (currentIndex + 1) % files.length;
+    setSelectedFile(files[nextIndex]);
+  };
+
+  const navigateToPrevFile = () => {
+    if (!selectedFile || files.length === 0) return;
+    
+    const currentIndex = files.findIndex(file => file.path === selectedFile.path);
+    const prevIndex = (currentIndex - 1 + files.length) % files.length;
+    setSelectedFile(files[prevIndex]);
+  };
+
   if (loading) {
     return <div className="loading">Loading...</div>;
   }
@@ -80,7 +96,10 @@ function App() {
       {selectedFile && (
         <Modal 
           file={selectedFile} 
+          files={files}
           onClose={closeModal}
+          onNext={navigateToNextFile}
+          onPrev={navigateToPrevFile}
         />
       )}
     </div>
